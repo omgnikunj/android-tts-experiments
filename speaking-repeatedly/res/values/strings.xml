@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SpeakRepeatedly</string>
+    <string name="one_word">"Alphabet"</string>
+    <string name="one_word_label">1 word</string>
+    <string name="two_words">Brown bear</string>
+    <string name="two_words_label">2 words</string>
+    <string name="three_words">Cheerful Cheshire cat</string>
+    <string name="three_words_label">3 words</string>
+    <string name="four_words">Distinguish deftly don\'t drag</string>
+    <string name="four_words_label">4 words</string>
+    <string name="short_sentence">I am glad.</string>
+    <string name="short_sentence_label">Short sentence</string>
+    <string name="medium_sentence">Once upon a time I saw a dog.</string>
+    <string name="medium_sentence_label">Medium sentence</string>
+    <string name="long_sentence">The quick brown fox jumped over the lazy dog, before the dog had chance to chase him.</string>
+    <string name="long_sentence_label">Long sentence</string>
+    <string name="one_paragraph">I like testing text-to-speech. However the process is time consuming. Wouldn\'t published examples help users to understand how to use Android TTS effectively?</string>
+    <string name="one_paragraph_label">One paragraph</string>
+</resources>
