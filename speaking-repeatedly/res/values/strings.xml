@@ -2,6 +2,9 @@
 <resources>
     <string name="status">Status:</string>
     <string name="initial_status">(TTS not initialized)</string>
+    <string name="tts_data_installed_ok">(TTS data installed OK)</string>
+    <string name="tts_already_running">(TTS already running)</string>
+    <string name="tts_problem">(TTS Problem)</string>
     <string name="app_name">SpeakRepeatedly</string>
     <string name="one_word">"Alphabet"</string>
     <string name="one_word_label">1 word</string>
