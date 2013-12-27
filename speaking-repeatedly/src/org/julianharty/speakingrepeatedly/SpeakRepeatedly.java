@@ -43,25 +43,35 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
         
         if (tts == null) {
         	tts = new TextToSpeech(this, this);
+        	// TODO: Log whether the TTS object was created successfully.
         } else {
+        	// TODO: log the result in a Queue
         	statusMsg.setText(R.string.tts_already_running);
         }
         
+        // TODO: Test with Gingerbread - do we ever reach this point? on devices without TTS voice data?
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+        
+        // TODO: Check which engines and languages are available. Maybe we can pick the voice to say each phrase in?
     }
 
 	@Override
 	public void onClick(View v) {
+		int rc;
 		switch (v.getId()) {
 		case R.id.button1:
+			rc = tts.speak(getText(R.string.one_word).toString(), TextToSpeech.QUEUE_ADD, null);
 			break;
 		case R.id.button2:
+			rc = tts.speak(getText(R.string.two_words).toString(), TextToSpeech.QUEUE_ADD, null);
 			break;
 		case R.id.button3:
+			rc = tts.speak(getText(R.string.three_words).toString(), TextToSpeech.QUEUE_ADD, null);
 			break;
 		case R.id.button4:
+			rc = tts.speak(getText(R.string.four_words).toString(), TextToSpeech.QUEUE_ADD, null);
 			break;
 		}
 	}
