@@ -40,6 +40,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/four_words_label" />
-
+<Button
+    android:id="@+id/button_sentence"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/long_sentence_label" />
+<Button
+    android:id="@+id/button_paragraph"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/one_paragraph_label" />
 </LinearLayout>
 

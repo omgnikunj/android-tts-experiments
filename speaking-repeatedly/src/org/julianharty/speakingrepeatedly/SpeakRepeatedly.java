@@ -19,6 +19,8 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 	private Button threeButton;
 	private Button fourButton;
 	private TextView statusMsg;
+	private Button sentenceButton;
+	private Button paragraph_button;
 	private static TextToSpeech tts; 
 
 	/** Called when the activity is first created. */
@@ -33,11 +35,15 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
         twoButton = (Button) findViewById(R.id.button2);
         threeButton = (Button) findViewById(R.id.button3);
         fourButton = (Button) findViewById(R.id.button4);
+        sentenceButton = (Button) findViewById(R.id.button_sentence);
+        paragraph_button = (Button) findViewById(R.id.button_paragraph);
         
         oneButton.setOnClickListener(this);
         twoButton.setOnClickListener(this);
         threeButton.setOnClickListener(this);
         fourButton.setOnClickListener(this);
+        sentenceButton.setOnClickListener(this);
+        paragraph_button.setOnClickListener(this);
         
         statusMsg = (TextView) findViewById(R.id.status_msg);
         
@@ -72,6 +78,12 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 			break;
 		case R.id.button4:
 			rc = tts.speak(getText(R.string.four_words).toString(), TextToSpeech.QUEUE_ADD, null);
+			break;
+		case R.id.button_sentence:
+			rc= tts.speak(getText(R.string.long_sentence).toString(), TextToSpeech.QUEUE_ADD, null);
+			break;
+		case R.id.button_paragraph:
+			rc = tts.speak(getText(R.string.one_paragraph).toString(), TextToSpeech.QUEUE_ADD, null);
 			break;
 		}
 	}
