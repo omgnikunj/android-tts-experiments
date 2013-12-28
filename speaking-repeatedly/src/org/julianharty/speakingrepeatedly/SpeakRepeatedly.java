@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.Engine;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -96,9 +97,11 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 		if (requestCode == MY_DATA_CHECK_CODE) {
 			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 				statusMsg.setText(R.string.tts_data_installed_ok);
+			} else {
+				Intent installVoiceDataIntent =	new Intent(Engine.ACTION_INSTALL_TTS_DATA);
+				startActivity(installVoiceDataIntent);
 			}
-		}
-
+		} 
 	}
 	
 	@Override
@@ -113,5 +116,4 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 		}
 	}
 	
-
 }
