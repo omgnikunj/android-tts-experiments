@@ -2,6 +2,8 @@
 <resources>
     <string name="status">Status:</string>
     <string name="initial_status">(TTS not initialized)</string>
+    <string name="tts_being_initialized">(TTS being initialized...)</string>
+    <string name="tts_initialized_ok">(TTS initialized OK)</string>
     <string name="tts_data_installed_ok">(TTS data installed OK)</string>
     <string name="tts_already_running">(TTS already running)</string>
     <string name="tts_problem">(TTS Problem)</string>

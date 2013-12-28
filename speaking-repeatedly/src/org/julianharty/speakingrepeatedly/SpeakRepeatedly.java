@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.Engine;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -49,10 +50,12 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
         statusMsg = (TextView) findViewById(R.id.status_msg);
         
         if (tts == null) {
+        	statusMsg.setText(R.string.tts_being_initialized);
+        	Log.d("SpeakRepeatedly", getText(R.string.tts_being_initialized).toString());
         	tts = new TextToSpeech(this, this);
-        	// TODO: Log whether the TTS object was created successfully.
         } else {
         	// TODO: log the result in a Queue
+        	Log.d("SpeakRepeatedly", getText(R.string.tts_already_running).toString());
         	statusMsg.setText(R.string.tts_already_running);
         }
         
@@ -108,7 +111,7 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 	public void onInit(final int status) {
 		switch (status) {
 			case TextToSpeech.SUCCESS:
-				statusMsg.setText(R.string.tts_data_installed_ok);
+				statusMsg.setText(R.string.tts_initialized_ok);
 				break;
 			default:
 				statusMsg.setText(R.string.tts_problem + String.format(", rc[%d]", status));
