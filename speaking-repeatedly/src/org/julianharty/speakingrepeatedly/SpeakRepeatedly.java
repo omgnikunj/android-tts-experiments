@@ -52,17 +52,17 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
         if (tts == null) {
         	statusMsg.setText(R.string.tts_being_initialized);
         	Log.d("SpeakRepeatedly", getText(R.string.tts_being_initialized).toString());
-        	tts = new TextToSpeech(this, this);
+        	tts = new TextToSpeech(getApplicationContext(), this);
+        	// TODO: Test with Gingerbread - do we ever reach this point? on devices without TTS voice data?
+        	Intent checkIntent = new Intent();
+        	checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        	startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
         } else {
         	// TODO: log the result in a Queue
         	Log.d("SpeakRepeatedly", getText(R.string.tts_already_running).toString());
         	statusMsg.setText(R.string.tts_already_running);
         }
         
-        // TODO: Test with Gingerbread - do we ever reach this point? on devices without TTS voice data?
-        Intent checkIntent = new Intent();
-        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
         
         // TODO: Check which engines and languages are available. Maybe we can pick the voice to say each phrase in?
     }
