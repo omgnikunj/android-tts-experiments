@@ -1,6 +1,8 @@
 package org.julianharty.speakingrepeatedly;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -21,7 +23,8 @@ import android.widget.TextView;
 
 public class SpeakRepeatedly extends Activity implements OnClickListener, OnInitListener
 {
-    private static final int MY_DATA_CHECK_CODE = 19; // Can be any value we recognise later when the Activity Completes.
+    private static final String SPEAK_REPEATEDLY = "SpeakRepeatedly";
+	private static final int MY_DATA_CHECK_CODE = 19; // Can be any value we recognise later when the Activity Completes.
 	private Button oneButton;
 	private Button twoButton;
 	private Button threeButton;
@@ -59,7 +62,7 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
         
         if (tts == null) {
         	statusMsg.setText(R.string.tts_being_initialized);
-        	Log.d("SpeakRepeatedly", getText(R.string.tts_being_initialized).toString());
+        	Log.d(SPEAK_REPEATEDLY, getText(R.string.tts_being_initialized).toString());
         	tts = new TextToSpeech(getApplicationContext(), this);
         	// TODO: Test with Gingerbread - do we ever reach this point? on devices without TTS voice data?
         	Intent checkIntent = new Intent();
@@ -67,17 +70,33 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
         	startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
         } else {
         	// TODO: log the result in a Queue
-        	Log.d("SpeakRepeatedly", getText(R.string.tts_already_running).toString());
+        	Log.d(SPEAK_REPEATEDLY, getText(R.string.tts_already_running).toString());
         	statusMsg.setText(R.string.tts_already_running);
         }
         
-        // TODO: Check which engines and languages are available. Maybe we can pick the voice to say each phrase in?
-        Log.d("SpeakRepeatedly", "Runtime Version = " + Build.VERSION.SDK_INT);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-        	dumpTtsEngines();
-        }
+
     }
 
+    /**
+     * Get the Available Locales supported by TTS
+     * 
+     * Comments:
+     *   - We don't know if this iterates across different speech engines
+     *   - We need to test whether the spoken language is (also) available.
+     * @return
+     */
+    List<Locale> getAvailableLocalesInTts() {
+    Locale[] locales = Locale.getAvailableLocales();
+    List<Locale> localeList = new ArrayList<Locale>();
+    for (Locale locale : locales) {
+        int res = tts.isLanguageAvailable(locale);
+        if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
+            localeList.add(locale);
+        }
+    }
+    return localeList;
+    }
+    
     @TargetApi(14)
 	private void dumpTtsEngines() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -87,7 +106,7 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 	        String msg;
 	        for (EngineInfo engine: engines) {
 	        	msg = String.format("Engine %s:%s", engine.label, engine.name);
-	        	Log.d("SpeakRepeatedly", msg);
+	        	Log.d(SPEAK_REPEATEDLY, msg);
 	        }
         }
 	}
@@ -137,6 +156,22 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 		switch (status) {
 			case TextToSpeech.SUCCESS:
 				statusMsg.setText(R.string.tts_initialized_ok);
+		        // TODO: Check which engines and languages are available. Maybe we can pick the voice to say each phrase in?
+		        Log.d(SPEAK_REPEATEDLY, "Runtime Version = " + Build.VERSION.SDK_INT);
+		        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+		        	dumpTtsEngines();
+		        }
+		        
+		        List<Locale> availableLocales = getAvailableLocalesInTts();
+		        for (Locale locale : availableLocales) {
+		        	Log.d(SPEAK_REPEATEDLY, String.format("%s:%s:%s", 
+		        			locale.getDisplayName(), locale.getDisplayLanguage(), locale.toString()));
+		        	
+		            if (locale.getDisplayName().startsWith("Portuguese")) {
+		            	Log.i(SPEAK_REPEATEDLY, "Setting Locale to: " + locale.toString());
+		            	tts.setLanguage(locale);
+		            }
+		        }
 				break;
 			default:
 				statusMsg.setText(R.string.tts_problem + String.format(", rc[%d]", status));
