@@ -1,11 +1,17 @@
 package org.julianharty.speakingrepeatedly;
 
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.Engine;
+import android.speech.tts.TextToSpeech.EngineInfo;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import android.view.View;
@@ -23,10 +29,12 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 	private TextView statusMsg;
 	private Button sentenceButton;
 	private Button paragraph_button;
+	private List<EngineInfo> engines;
 	private static TextToSpeech tts; 
 
 	/** Called when the activity is first created. */
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -63,9 +71,26 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
         	statusMsg.setText(R.string.tts_already_running);
         }
         
-        
         // TODO: Check which engines and languages are available. Maybe we can pick the voice to say each phrase in?
+        Log.d("SpeakRepeatedly", "Runtime Version = " + Build.VERSION.SDK_INT);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+        	dumpTtsEngines();
+        }
     }
+
+    @TargetApi(14)
+	private void dumpTtsEngines() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+        	
+        	engines = tts.getEngines();
+        
+	        String msg;
+	        for (EngineInfo engine: engines) {
+	        	msg = String.format("Engine %s:%s", engine.label, engine.name);
+	        	Log.d("SpeakRepeatedly", msg);
+	        }
+        }
+	}
 
 	@Override
 	public void onClick(View v) {
