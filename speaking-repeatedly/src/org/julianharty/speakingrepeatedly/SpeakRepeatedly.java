@@ -166,11 +166,6 @@ public class SpeakRepeatedly extends Activity implements OnClickListener, OnInit
 		        for (Locale locale : availableLocales) {
 		        	Log.d(SPEAK_REPEATEDLY, String.format("%s:%s:%s", 
 		        			locale.getDisplayName(), locale.getDisplayLanguage(), locale.toString()));
-		        	
-		            if (locale.getDisplayName().startsWith("Portuguese")) {
-		            	Log.i(SPEAK_REPEATEDLY, "Setting Locale to: " + locale.toString());
-		            	tts.setLanguage(locale);
-		            }
 		        }
 				break;
 			default:
